@@ -50,8 +50,9 @@ const Routes = () => {
 
   // Combine and conditionally include routes based on authentication status
   const router = createBrowserRouter([
-    ...routesForAuthenticatedOnly,
-    ...(!token ? routesForNotAuthenticatedOnly : []),
+    //...routesForAuthenticatedOnly,
+    //...(!token ? routesForNotAuthenticatedOnly : []),
+    ...routesForNotAuthenticatedOnly
   ]);
   
 

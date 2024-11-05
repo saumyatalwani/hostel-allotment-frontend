@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Dashboard(){
 
-    const auth = useAuth();
+    /*const auth = useAuth();
     const { setToken }=useAuth();
     const navigate = useNavigate();
     const decoded = jwtDecode(auth.token);
@@ -27,7 +27,7 @@ export default function Dashboard(){
     const handleLogout = () => {
         setToken(null); // Set token to null
         navigate("/", { replace: true });
-    };
+    };*/
 
     return (
         <div className="p-10 text-lg">
@@ -44,13 +44,13 @@ export default function Dashboard(){
                     <BreadcrumbSeparator/>
                 </BreadcrumbList>
             </Breadcrumb>
-            <h1 className="text-5xl font-bold font-uberMove mt-5">Welcome {name}</h1>
+            <h1 className="text-5xl font-bold font-uberMove mt-5">Welcome User{/*name*/}</h1>
             <div className="mt-2 ml-5">
                 <p className="font-uberText mt-5">Go To : </p>
                 <Link className="underline text-black" to='/docUpload'>Document Upload<ChevronRightIcon className="mx-2 size-5"/></Link>
                 <Link className="text-gray-500" to='/roomSelect'>Room Selection</Link>
             </div>
-            <Button onClick={handleLogout} className="mt-20">Logout</Button>
+            {/*<Button onClick={handleLogout} className="mt-20">Logout</Button>*/}
 
 
         </div>
