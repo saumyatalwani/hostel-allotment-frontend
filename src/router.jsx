@@ -10,6 +10,7 @@ const Routes = () => {
   const { token } = useAuth();
 
   // Define routes accessible only to authenticated users
+  /*
   const routesForAuthenticatedOnly = [
     {
       path: "/",
@@ -25,7 +26,7 @@ const Routes = () => {
         }
       ],
     },
-  ];
+  ];*/
 
   // Define routes accessible only to non-authenticated users
   const routesForNotAuthenticatedOnly = [
@@ -37,6 +38,14 @@ const Routes = () => {
       path: "/login",
       element: <LoginForm />,
     },
+    {
+      path: "/dashboard",
+      element: <Dashboard/>,
+    },
+    {
+      path : '/roomSelect',
+      element : <RoomSelect />
+    }
   ];
 
   // Combine and conditionally include routes based on authentication status
