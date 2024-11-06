@@ -5,6 +5,9 @@ import { LoginForm } from './routes/login';
 import Root from './routes/root';
 import Dashboard from './routes/dash';
 import RoomSelect from './routes/roomSelect';
+import DocumentUpload from "./routes/documentupload";
+import HostelIDForm from "./routes/hostelidform";
+import ComplaintForm from "./routes/complaintform";
 
 const Routes = () => {
   const { token } = useAuth();
@@ -45,7 +48,19 @@ const Routes = () => {
     {
       path : '/roomSelect',
       element : <RoomSelect />
-    }
+    },
+    {
+      path: "/documentupload",
+      element: <DocumentUpload />,
+    },
+    {
+      path: "/hostelidform", // 
+      element: <HostelIDForm />,
+    },
+    {
+      path: "/complaintform", // 
+      element: <ComplaintForm />,
+    },
   ];
 
   // Combine and conditionally include routes based on authentication status

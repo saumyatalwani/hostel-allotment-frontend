@@ -47,8 +47,10 @@ export default function Dashboard(){
             <h1 className="text-5xl font-bold font-uberMove mt-5">Welcome User{/*name*/}</h1>
             <div className="mt-2 ml-5">
                 <p className="font-uberText mt-5">Go To : </p>
-                <Link className="underline text-black" to='/docUpload'>Document Upload<ChevronRightIcon className="mx-2 size-5"/></Link>
-                <Link className="text-gray-500" to='/roomSelect'>Room Selection</Link>
+                <Link className="underline text-black" to='/documentupload'>Document Upload<ChevronRightIcon className="mx-2 size-5"/></Link>
+                <Link className="text-gray-500" to='/roomSelect'>Room Selection<ChevronRightIcon className="mx-2 size-5"/></Link>
+                <Link className="text-gray-500" to='/hostelidform'>Hostel Id Form<ChevronRightIcon className="mx-2 size-5"/></Link>
+                <Link className="text-gray-500" to='/complaintform'>Complaint Form</Link>
             </div>
             {/*<Button onClick={handleLogout} className="mt-20">Logout</Button>*/}
 
