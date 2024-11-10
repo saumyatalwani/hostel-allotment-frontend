@@ -63,7 +63,7 @@ export function LoginForm() {
     const {email,password}= values;
     
     const data = {
-      'username':email,
+      'email':email,
       'password':password
     }
     const url = backendURL+'/api/login.php'

@@ -5,15 +5,16 @@ import { LoginForm } from './routes/login';
 import Root from './routes/root';
 import Dashboard from './routes/dash';
 import RoomSelect from './routes/roomSelect';
-import DocumentUpload from "./routes/documentupload";
+import DocumentUpload from "./routes/docUpload";
 import HostelIDForm from "./routes/hostelidform";
 import ComplaintForm from "./routes/complaintform";
+import FinalSelect from "./routes/finalRoomSelection";
 
 const Routes = () => {
   const { token } = useAuth();
 
   // Define routes accessible only to authenticated users
-  /*
+  
   const routesForAuthenticatedOnly = [
     {
       path: "/",
@@ -26,10 +27,26 @@ const Routes = () => {
         {
           path : '/roomSelect',
           element : <RoomSelect />
-        }
+        },
+        {
+          path : '/finalize',
+          element : <FinalSelect />
+        },
+        {
+          path: "/upload",
+          element: <DocumentUpload />,
+        },
+        {
+          path: "/hostelidform", // 
+          element: <HostelIDForm />,
+        },
+        {
+          path: "/complaintform", // 
+          element: <ComplaintForm />,
+        },
       ],
     },
-  ];*/
+  ];
 
   // Define routes accessible only to non-authenticated users
   const routesForNotAuthenticatedOnly = [
@@ -41,33 +58,12 @@ const Routes = () => {
       path: "/login",
       element: <LoginForm />,
     },
-    {
-      path: "/dashboard",
-      element: <Dashboard/>,
-    },
-    {
-      path : '/roomSelect',
-      element : <RoomSelect />
-    },
-    {
-      path: "/documentupload",
-      element: <DocumentUpload />,
-    },
-    {
-      path: "/hostelidform", // 
-      element: <HostelIDForm />,
-    },
-    {
-      path: "/complaintform", // 
-      element: <ComplaintForm />,
-    },
   ];
 
   // Combine and conditionally include routes based on authentication status
   const router = createBrowserRouter([
-    //...routesForAuthenticatedOnly,
-    //...(!token ? routesForNotAuthenticatedOnly : []),
-    ...routesForNotAuthenticatedOnly
+    ...routesForAuthenticatedOnly,
+    ...(!token ? routesForNotAuthenticatedOnly : []),
   ]);
   
 
