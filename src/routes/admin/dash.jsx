@@ -52,6 +52,7 @@ export default function AdminDashboard(){
                 <Link className="font-uberText my-5 underline" to={'/batchAssign'}>Assign Batches</Link><br/>
                 <Link className="font-uberText my-5 underline" to={'/blockGender'}>Assign Blocks</Link><br/>
                 <Link className="font-uberText my-5 underline" to={'/users'}>Users</Link><br/>
+                <Link className="font-uberText my-5 underline" to={'/roomDetails'}>Rooms</Link><br/>
                 <Link className="font-uberText my-5 underline" to={'/hostelID'}>Hostel ID Details</Link><br/>
                 <Link className="font-uberText my-5 underline" to={'/complaints'}>Complaints</Link><br/>
 

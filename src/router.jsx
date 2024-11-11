@@ -16,6 +16,7 @@ import UserDisplay from "./routes/admin/users";
 import IdDetails from "./routes/admin/IdDetails";
 import ComplaintDetails from "./routes/admin/complaint";
 import Layout from "./layout";
+import RoomDetails from "./routes/admin/rooms";
 
 const Routes = () => {
   const { token } = useAuth();
@@ -74,7 +75,11 @@ const Routes = () => {
         {
           path:"/complaints",
           element: <ComplaintDetails />
-        }
+        },
+        {
+          path : '/roomDetails',
+          element : <RoomDetails />
+        },
       ],
     },
   ];

@@ -39,9 +39,10 @@ export default function HostelIDForm() {
 
   useEffect(() => {
     if (status !== 'RoomSelected') {
+      console.log('h');
       navigate('/dashboard',{ replace: true });
     }
-  }, [role, navigate]);
+  }, [status, navigate]);
 
   const backendURL = import.meta.env.VITE_BACKEND_URL;
 
@@ -49,7 +50,8 @@ export default function HostelIDForm() {
     const checkFilled = async () => {
         try {
             const response = await axios.get(`${backendURL}/api/checkFilled`, config);
-            if(response.status==200){
+            
+            if(response.data.message==true){
               navigate('/dashboard');
             }
         } catch (error) {

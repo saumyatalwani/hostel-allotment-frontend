@@ -49,7 +49,7 @@ export default function ComplaintForm() {
     if (status !== 'RoomSelected') {
       navigate('/dashboard',{ replace: true });
     }
-  }, [role, navigate]);
+  }, [status, navigate]);
 
   const config = {
     headers: { 

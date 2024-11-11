@@ -98,9 +98,9 @@ export default function Batch(){
         <div className="p-10 text-lg">
         <HelmetProvider>
                 <Helmet>
-                    <title>Dashboard | PDEU Hostels</title>
+                    <title>Assign Batches | PDEU Hostels</title>
                 </Helmet>
-            </HelmetProvider>
+        </HelmetProvider>
             <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>
@@ -175,8 +175,8 @@ export default function Batch(){
                                 </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                <SelectItem value="Highrise">Highrise</SelectItem>
-                                <SelectItem value="UG">UG</SelectItem>
+                                    <SelectItem value="Highrise">Highrise</SelectItem>
+                                    <SelectItem value="UG">UG</SelectItem>
                                 </SelectContent>
                             </Select>
                             </FormItem>
