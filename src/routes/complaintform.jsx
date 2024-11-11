@@ -4,73 +4,106 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useAuth } from "@/authProvider";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { useEffect } from "react";
 
 export default function ComplaintForm() {
   const form = useForm({
     defaultValues: {
-      name: '',
       complaintType: '',
-      complaintDetails: '',
-      contactInfo: '',
+      description: '',
+      phoneNo: '',
     }
   });
 
+  const navigate=useNavigate();
+
+  const {token}=useAuth();
+  const {email,role,status}=jwtDecode(token);
+
+  useEffect(() => {
+    if (role == 'admin') {
+      navigate('/admin',{ replace: true });
+    }
+  }, [role, navigate]);
+
+  useEffect(() => {
+    if (status !== 'RoomSelected') {
+      navigate('/dashboard',{ replace: true });
+    }
+  }, [role, navigate]);
+
+  const config = {
+    headers: { 
+      'Authorization': `Bearer ${token}`,
+    }
+  };
+
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
+
   async function handleSubmit(values) {
-    console.log("Form values submitted:", values);
-    // Handle form submission (e.g., send to backend)
+    values['email']=email
+    try{
+
+    const post = await axios.post(`${backendURL}/api/complaint`,values,config);
+
+    if(post.status==200){
+      navigate('/dashboard')
+    }} catch (e){
+      console.log(e);
+    }
   }
 
   return (
-    <div className="flex h-screen justify-center items-center">
+    <div className="p-10 text-lg">
+    <HelmetProvider>
+        <Helmet>
+          <title>Complaint Form | PDEU Hostels</title>
+        </Helmet>
+      </HelmetProvider>
+    <Breadcrumb>
+    <BreadcrumbList>
+      <BreadcrumbItem>
+        <BreadcrumbLink to="/dashboard">Dashboard</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbLink to="/complaintForm">Complaint Form</BreadcrumbLink>
+      </BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
+
+    
+    <div className="flex h-[80vh] justify-center items-center">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl">Complaint Form</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-6"> {/* Increased gap for spacing */}
+        <CardContent className="grid gap-6">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)}>
-
-              {/* Name Field */}
+              
               <FormField
                 control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input id="name" placeholder="Enter your name" {...field} required className="p-2" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Complaint Type Dropdown */}
-              <FormField
-                control={form.control}
-                name="complaintType"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="mb-2">Complaint Type</FormLabel>
-                    <FormControl>
-                      <select id="complaintType" {...field} required className="border p-2 w-full rounded">
-                        <option value="">Select a complaint type</option>
-                        <option value="electric">Electric</option>
-                        <option value="plumbing">Plumbing</option>
-                        <option value="carpentry">Carpentry</option>
-                        <option value="ac">AC</option>
-                        <option value="cleaning">Cleaning</option>
-                      </select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Contact Information (Phone Number) */}
-              <FormField
-                control={form.control}
-                name="contactInfo"
+                name="phoneNo"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Contact Information</FormLabel>
@@ -81,15 +114,54 @@ export default function ComplaintForm() {
                   </FormItem>
                 )}
               />
-
-              {/* Submit Button */}
+              <FormField
+                control={form.control}
+                name="complaintType"
+                render={({ field }) => (
+                  <FormItem className="mt-2">
+                    <FormLabel className="mb-2">Complaint Type</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Complaint Type" required className="p-2 mt-2" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                              <SelectItem value="Electric">Electric</SelectItem>
+                              <SelectItem value="Plumbing">Plumbing</SelectItem>
+                              <SelectItem value="Carpentry">Carpentry</SelectItem>
+                              <SelectItem value="AC">AC</SelectItem>
+                              <SelectItem value="Cleaning">Cleaning</SelectItem>
+                          </SelectContent>
+                        </Select>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                
+                name="description"
+                render={({ field }) => (
+                  <FormItem className="mt-2">
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <>
+                        <br/>
+                        <Textarea placeholder="Describe your problem" {...field} required className="p-2" />
+                      </>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <CardFooter>
-                <Button className="w-full mt-6" type="submit">Submit</Button> {/* Added margin-top */}
+                <Button className="w-full mt-6" type="submit">Submit</Button>
               </CardFooter>
             </form>
           </Form>
         </CardContent>
       </Card>
     </div>
+  </div>
   );
 }

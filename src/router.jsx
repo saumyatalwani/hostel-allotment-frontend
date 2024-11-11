@@ -9,6 +9,13 @@ import DocumentUpload from "./routes/docUpload";
 import HostelIDForm from "./routes/hostelidform";
 import ComplaintForm from "./routes/complaintform";
 import FinalSelect from "./routes/finalRoomSelection";
+import AdminDashboard from "./routes/admin/dash";
+import Batch from "./routes/admin/batch";
+import BlockAssignment from "./routes/admin/blockG";
+import UserDisplay from "./routes/admin/users";
+import IdDetails from "./routes/admin/IdDetails";
+import ComplaintDetails from "./routes/admin/complaint";
+import Layout from "./layout";
 
 const Routes = () => {
   const { token } = useAuth();
@@ -18,7 +25,7 @@ const Routes = () => {
   const routesForAuthenticatedOnly = [
     {
       path: "/",
-      element: <ProtectedRoute />,
+      element: <Layout />,
       children: [
         {
           path: "/dashboard",
@@ -37,23 +44,43 @@ const Routes = () => {
           element: <DocumentUpload />,
         },
         {
-          path: "/hostelidform", // 
+          path: "/idForm", // 
           element: <HostelIDForm />,
         },
         {
-          path: "/complaintform", // 
+          path: "/complaintForm", // 
           element: <ComplaintForm />,
         },
+        {
+          path:"/admin",
+          element: <AdminDashboard />
+        },
+        {
+          path:"/batchAssign",
+          element: <Batch />
+        },
+        {
+          path:"/blockGender",
+          element: <BlockAssignment />
+        },
+        {
+          path:"/users",
+          element: <UserDisplay />
+        },
+        {
+          path:"/hostelID",
+          element: <IdDetails />
+        },
+        {
+          path:"/complaints",
+          element: <ComplaintDetails />
+        }
       ],
     },
   ];
 
   // Define routes accessible only to non-authenticated users
   const routesForNotAuthenticatedOnly = [
-    {
-      path: "/",
-      element: <Root />,
-    },
     {
       path: "/login",
       element: <LoginForm />,

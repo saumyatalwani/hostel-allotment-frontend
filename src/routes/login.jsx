@@ -21,7 +21,7 @@ import {
   FormLabel,
   FormMessage } from "@/components/ui/form"
 import { useForm } from "react-hook-form"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import InvalidAlert from "@/components/InvalidAlert";
 import { useState } from "react";
 
 
@@ -29,21 +29,6 @@ import { useState } from "react";
 
 export const description =
   "A simple login form with email and password. The submit button says 'Sign in'."
-
-
-function InvalidAlert(){
-  return(
-    
-    <Alert variant="destructive">
-        <AlertTitle>Invalid Credentials</AlertTitle>
-        <AlertDescription>
-          Check username or password
-        </AlertDescription>
-    </Alert>
-   
-  )
-}
-
 
 export function LoginForm() {
 
@@ -78,6 +63,7 @@ export function LoginForm() {
       navigate("/dashboard", { replace: true });
     }
   } catch (e){
+    console.log(e);
     if(e.status==401){
       //alert("invalid");
       setShowAlert(true);
@@ -105,11 +91,6 @@ export function LoginForm() {
       </CardHeader>
       <CardContent className="grid gap-4">
       <div className="grid gap-2">
-        {/*
-          <Label htmlFor="email"></Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
-          */
-        }
           <FormField
           control={form.control}
           name="email"
@@ -126,11 +107,6 @@ export function LoginForm() {
         />
         </div>
         <div className="grid gap-2">
-        {/*
-          <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" required />
-          */
-        }
           <FormField
           control={form.control}
           name="password"
@@ -147,18 +123,20 @@ export function LoginForm() {
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full" type="submit">Sign in</Button>
+      <div className="w-full">
+        <Button className="w-full" type="submit">Sign in</Button>         
+        {
+          showAlert ?
+        <div className="mt-5">
+          <InvalidAlert title={'Invalid Credentials'} description={'Check username or password'}/>
+        </div> : null
+        }
+        </div>
       </CardFooter>
       </form>
       </Form>        
     </Card>
-    
-    {
-      showAlert ?
-    <div className="mt-5">
-       <InvalidAlert />
-    </div> : null
-    }
+
     </div>
   )
 }

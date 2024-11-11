@@ -25,7 +25,7 @@ export default function RoomSelect(){
     const [rooms, setRooms] = useState([]); // Store fetched rooms
     const decoded = jwtDecode(auth.token)
     const navigate = useNavigate();
-    const { status,rollNo } = decoded;
+    const { status,rollNo,role } = decoded;
     const [reserved, setReserved] = useState(null);
 
     useEffect(() => {
@@ -33,6 +33,12 @@ export default function RoomSelect(){
           navigate('/dashboard',{ replace: true });
         }
       }, [status, navigate]);
+    
+      useEffect(() => {
+        if (role == 'admin') {
+          navigate('/admin',{ replace: true });
+        }
+      }, [role, navigate]);
     
       useEffect(() => {
         const fetchReservedData = async () => {
@@ -100,11 +106,11 @@ export default function RoomSelect(){
             <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                        <BreadcrumbLink to="/dashboard">Dashboard</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator/>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/roomSelect">Room Selection</BreadcrumbLink>
+                        <BreadcrumbLink to="/roomSelect">Room Selection</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator/>
                 </BreadcrumbList>

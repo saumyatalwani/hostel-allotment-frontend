@@ -1,3 +1,4 @@
+//import { Helmet } from "react-helmet"
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -6,33 +7,31 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
   } from "@/components/ui/breadcrumb"
-import { ChevronRightIcon } from "@primer/octicons-react"
 import { Link } from "react-router-dom"
 import { jwtDecode } from "jwt-decode"; 
 import { useAuth } from "@/authProvider";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useNavigate } from "react-router-dom";
-import clsx from 'clsx';
-
 import { useEffect } from "react";
 
 
-export default function Dashboard(){
+export default function AdminDashboard(){
 
     const auth = useAuth();
+
     const navigate = useNavigate();
     
     const decoded = jwtDecode(auth.token);
-    var { name,status,role } = decoded;
+    var { name,role } = decoded;
 
     useEffect(() => {
-        if (role == 'admin') {
-          navigate('/admin',{ replace: true });
+        if (role !== 'admin') {
+          navigate('/dashboard',{ replace: true });
         }
       }, [role, navigate]);
 
     return (
-        <div className="p-10 text-lg">
+        <div className="p-10 text-lg h-screen">
             <HelmetProvider>
                 <Helmet>
                     <title>Dashboard | PDEU Hostels</title>
@@ -47,21 +46,16 @@ export default function Dashboard(){
                 </BreadcrumbList>
             </Breadcrumb>
             <h1 className="text-5xl font-bold font-uberMove mt-5">Welcome {name}</h1>
-            <div className="mt-2 ml-5">
-                <p className="font-uberText mt-5">Go To : </p>
-                <Link className={clsx(
-                    status==='docVerify' && "underline text-black",
-                    status!=='docVerify' && "text-gray-500")} to={status==='docVerify'?'/upload':null}>Document Upload<ChevronRightIcon className="mx-2 size-5"/></Link>
-                <Link className={clsx(
-                    status==='selectRoom' && "underline text-black",
-                    status!=='selectRoom' && "text-gray-500")} to={status==='selectRoom'?'/roomSelect':null}>Room Selection</Link>
-            </div>
-
             <p className="font-uberText font-bold mt-5 text-2xl">Quick Links</p>
             <div className="mt-2 ml-5">
                 
-                <Link className="font-uberText my-5 underline" to='/idForm'>Hostel ID Form</Link><br/>
-                <Link className="font-uberText my-5 underline" to='/complaintForm'>Complaint Form</Link><br/>
+                <Link className="font-uberText my-5 underline" to={'/batchAssign'}>Assign Batches</Link><br/>
+                <Link className="font-uberText my-5 underline" to={'/blockGender'}>Assign Blocks</Link><br/>
+                <Link className="font-uberText my-5 underline" to={'/users'}>Users</Link><br/>
+                <Link className="font-uberText my-5 underline" to={'/hostelID'}>Hostel ID Details</Link><br/>
+                <Link className="font-uberText my-5 underline" to={'/complaints'}>Complaints</Link><br/>
+
+                
             </div>
         </div>
     )

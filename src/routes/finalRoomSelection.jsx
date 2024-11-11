@@ -15,14 +15,15 @@ import { useForm } from 'react-hook-form';
 import { useAuth } from '@/authProvider';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import InvalidAlert from '@/components/InvalidAlert';
 
 export default function FinalSelect(){
 
     const auth=useAuth();
     const {setToken}=useAuth();
     const location = useLocation();
-    const {status,rollNo}=jwtDecode(auth.token);
+    const {status,rollNo,role}=jwtDecode(auth.token);
     const navigate=useNavigate();
 
     
@@ -31,10 +32,18 @@ export default function FinalSelect(){
           navigate('/dashboard',{ replace: true });
         }
       }, [status, navigate]);
+      
+      useEffect(() => {
+        if (role == 'admin') {
+          navigate('/admin',{ replace: true });
+        }
+      }, [role, navigate]);
 
     const { handleSubmit, register } = useForm();
 
     const backendURL = import.meta.env.VITE_BACKEND_URL;
+
+    const [error,setError]=useState(null);
 
 
     async function onSubmit(data){
@@ -60,10 +69,20 @@ export default function FinalSelect(){
               'Authorization': `Bearer ${auth.token}`,
             },
           };
+        try{
         const req = await axios.put(`${backendURL}/api/SelectRoom`,submitData,config);
         console.log(req);
         if(req.status==200){
             setToken(req.data.access_token);
+        }
+        }catch(e){
+            console.log(e);
+            const err={
+                'message':e.response.data.message,
+                'title':'Error!'
+            }
+            setError(err);
+
         }
 
         
@@ -81,15 +100,15 @@ export default function FinalSelect(){
         <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                        <BreadcrumbLink to="/dashboard">Dashboard</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator/>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/roomSelect">Room Selection</BreadcrumbLink>
+                        <BreadcrumbLink to="/roomSelect">Room Selection</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator/>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/roomSelect">Finalize Room</BreadcrumbLink>
+                        <BreadcrumbLink to="/roomSelect">Finalize Room</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator/>
                 </BreadcrumbList>
@@ -136,6 +155,12 @@ export default function FinalSelect(){
         </div>
         <Button type="submit" className="mt-5">Submit</Button>
     </form>
+
+    {
+        error ? 
+        <InvalidAlert title={error.title} description={error.message} className="mt-5 w-[20vw]"/> :
+        null
+    }
 
      </div>
 

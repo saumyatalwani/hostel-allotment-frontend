@@ -29,7 +29,7 @@ export default function DocumentUpload() {
   const auth = useAuth();
   const {setToken} = useAuth();
   const decoded = jwtDecode(auth.token)
-  const {email,status,rollNo} = decoded
+  const {email,status,rollNo,role} = decoded
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,6 +37,12 @@ export default function DocumentUpload() {
       navigate('/dashboard',{ replace: true });
     }
   }, [status, navigate]);
+
+  useEffect(() => {
+    if (role == 'admin') {
+      navigate('/admin',{ replace: true });
+    }
+  }, [role, navigate]);
 
   const { handleSubmit, register } = useForm();
   const [uploadStatus, setUploadStatus] = useState(null);
@@ -132,6 +138,7 @@ export default function DocumentUpload() {
           }
         } catch(e){
           console.log(e.response.data);
+          setUploadStatus({ type: 'error', message: msg})
         }
        
       } catch(e){
@@ -156,11 +163,11 @@ export default function DocumentUpload() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+            <BreadcrumbLink to="/dashboard">Dashboard</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/upload">Document Upload</BreadcrumbLink>
+            <BreadcrumbLink to="/upload">Document Upload</BreadcrumbLink>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -187,17 +194,15 @@ export default function DocumentUpload() {
               </div>
             </CardContent>
             <CardFooter>
+            <div className='w-full'>
               <Button type="submit" className="w-full">Upload Documents</Button>
+              {uploadStatus && (<Alert variant={uploadStatus.type === 'success' ? 'positive' : 'destructive'} className="mt-5">
+                <AlertTitle>{uploadStatus.type === 'success' ? 'Success' : 'Error'}</AlertTitle>
+                <AlertDescription>{uploadStatus.message ? uploadStatus.message : "Some Error Occured"}</AlertDescription>
+              </Alert> )}
+            </div>
             </CardFooter>
           </form>
-          {uploadStatus && (
-            <div className="mt-4">
-              <Alert variant={uploadStatus.type === 'success' ? 'positive' : 'destructive'}>
-                <AlertTitle>{uploadStatus.type === 'success' ? 'Success' : 'Error'}</AlertTitle>
-                <AlertDescription>{uploadStatus.message}</AlertDescription>
-              </Alert>
-            </div>
-          )}
         </Card>
       </div>
     </div>

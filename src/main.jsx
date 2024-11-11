@@ -9,7 +9,7 @@ import AuthProvider from './authProvider';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <Routes/>
+        <Routes/>
     </AuthProvider>
   </StrictMode>,
 )
