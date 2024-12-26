@@ -22,7 +22,7 @@ You'll also be required to run the backend using Apache which you can obtain fro
 
 ## Creation of `.env` File
 
-The `.env` file in the project contains sensitive information such as database credentials and secret keys.
+The `.env` file in the project contains some crucial variables for the functioning of the program.
 You should include the following variables in your env file:
 
 ```js
